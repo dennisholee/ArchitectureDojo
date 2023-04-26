@@ -1,0 +1,29 @@
+@startuml
+participant Prospect as PROS
+participant Mobile as MOB
+participant "Registration BFF" as RBFF
+participant User as User
+participant "Identity and Access" as IDA
+participant "Communication Hub" as CHUB
+participant EMMA as EMMA
+participant Twillio as TW
+
+PROS -> MOB : Register by Mobile Number(email, mobile)
+MOB -> RBFF : Verify Device ownership
+RBFF -> IDA : Verify Device ownership
+IDA -> CHUB : Send OTP SMS
+
+alt In China
+  CHUB --> EMMA
+else Everywhere else
+  CHUB --> TW
+end
+
+PROS -> MOB : Submit OTP
+
+MOB -> RBFF : Register User By Mobile Number
+RBFF -> User : Create User Profile
+User -->> RBFF : User Profile ID
+
+
+@enduml
