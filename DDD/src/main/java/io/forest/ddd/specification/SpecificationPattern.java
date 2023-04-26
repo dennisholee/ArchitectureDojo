@@ -27,14 +27,6 @@ public class SpecificationPattern {
 		
 		
 		CompositeSpecification<Student> highSchoolStudentSpec = highSchoolSpec.and(artStudentSpec);
-		
-		System.out.println("highSchoolArtStudent " + highSchoolStudentSpec.isSatified(highSchoolArtStudent));
-		
-		System.out.println("hightSchoolNotArtStudent " + highSchoolStudentSpec.isSatified(hightSchoolNotArtStudent));
-		
-		System.out.println("notHightSchoolArtStudent " + highSchoolStudentSpec.isSatified(notHightSchoolArtStudent));
-		
-		System.out.println("notHighSchoolNotArtStudent " + highSchoolStudentSpec.isSatified(notHighSchoolNotArtStudent));
 	}
 }
 

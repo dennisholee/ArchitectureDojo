@@ -1,21 +1,136 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.forest</groupId>
-  <artifactId>io.fores.ddd</artifactId>
-  <version>1.0-SNAPSHOT</version>
+	<groupId>io.forest</groupId>
+	<artifactId>io.fores.ddd</artifactId>
+	<version>1.0-SNAPSHOT</version>
 
-  <name>io.forest</name>
-  <description>Domain Driven Design Implementation Patterns.</description>
+	<name>io.forest</name>
+	<description>Domain Driven Design Implementation Patterns.</description>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.compiler.source>1.7</maven.compiler.source>
-    <maven.compiler.target>1.7</maven.compiler.target>
-  </properties>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>1.8</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+	</properties>
 
- 
+	<dependencies>
+		<dependency>
+			<groupId>org.jmolecules</groupId>
+			<artifactId>jmolecules-ddd</artifactId>
+			<version>1.6.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.contextmapper</groupId>
+			<artifactId>context-mapper-archunit-extension</artifactId>
+			<version>1.2.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.11.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.junit.jupiter/junit-jupiter-api -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>5.9.2</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.tngtech.archunit</groupId>
+			<artifactId>archunit</artifactId>
+			<version>1.0.1</version>
+			<scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.avro</groupId>
+				<artifactId>avro-maven-plugin</artifactId>
+				<version>1.11.1</version>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>schema</goal>
+						</goals>
+						<configuration>
+							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory>
+							<outputDirectory>${project.basedir}/src/main/java/</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>com.societegenerale.commons</groupId>
+				<artifactId>arch-unit-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<configuration>
+					<properties>
+						<archunit.propertyName>propertyValue</archunit.propertyName>
+					</properties>
+					<rules>
+						<preConfiguredRules>
+							<rule>com.societegenerale.commons.plugin.rules.NoStandardStreamRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoJunitAssertRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoJodaTimeRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoJavaUtilDateRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoPowerMockRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoPrefixForInterfacesRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoPublicFieldRuleTest</rule>
+
+							<!-- you may want to use one of the below rules, but not both at same time -->
+							<rule>com.societegenerale.commons.plugin.rules.NoTestIgnoreRuleTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoTestIgnoreWithoutCommentRuleTest</rule>
+
+							<rule>com.societegenerale.commons.plugin.rules.NoInjectedFieldTest</rule>
+							<rule>com.societegenerale.commons.plugin.rules.NoAutowiredFieldTest</rule>
+						</preConfiguredRules>
+					</rules>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>arch-test</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<!-- 
+                A version of the core jar is included by default, but don't hesitate 
+                to upgrade to a later one if you need :
+                we will be able to add rules and behavior in arch-unit-build-plugin-core
+                without releasing a new version of arch-unit-maven-plugin
+            -->
+						<groupId>com.societegenerale.commons</groupId>
+						<artifactId>arch-unit-build-plugin-core</artifactId>
+						<version>3.0.0</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
