@@ -1,0 +1,48 @@
+@startuml
+
+Title Search Policy
+
+component [Service Consumer] as SC << XAPI >>
+component [Individual Life] as IL << PAPI >>
+component [Corporate Solution] as CS << PAPI >>
+component [Pension] as PT << PAPI >>
+component [Vitality] as VT << PAPI >>
+
+component [Client Module] as CM << Component >>
+component [EBenefit] as EB << Component >>
+component [Vitality Admin Server (VAS)] as VAS << Component >>
+component [Pension BE] as PTBE << Component >>
+
+component CM {
+  port AlphaSearch
+  port FindPolicy
+}
+
+interface FindPolicyIF as PII1
+interface FindPolicyIF as PII2
+interface FindPolicyIF as PII3
+interface FindPolicyIF as PII4
+
+ 
+SC ..> PII1
+SC ..> PII2
+SC ..> PII3
+SC ..> PII4
+
+PII1 - IL
+PII2 - CS
+PII3 - PT
+PII4 - VT
+
+IL ..> AlphaSearch
+IL ..> FindPolicy
+
+CS ..> EB
+
+VT ..> VAS
+
+PT ..> PTBE
+
+
+
+@enduml

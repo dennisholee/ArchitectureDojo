@@ -1,0 +1,60 @@
+@startuml
+autonumber
+
+Title Mobile Number Registration
+
+actor Prospect as PROS
+participant Mobile as MOB
+participant "Registration BFF" as RBFF
+participant "User Profile" as User
+participant "Identity and Access" as IDA
+participant "ID&A Cache" as CACHE
+participant "IAM Gateway" as IAMG
+participant "CIAM" as CIAM
+participant "Communication Hub" as CHUB
+participant EMMA as EMMA
+participant Twillio as TW
+
+PROS -> MOB : Register by EZ Login (email, mobile)
+
+MOB -> RBFF : Request Mobile Number Registration
+RBFF -> IDA : Request Verify Device Ownership
+
+IDA -> CACHE : Find OTP by Mobile Number
+alt Mobile not exists
+  IDA -> IDA : Generate OTP
+  IDA -> CACHE : Save OTP with TTL ? seconds  
+end
+
+note right: OTP timeout TBD
+IDA ->> CHUB : Request Send OTP SMS
+
+IDA -->> RBFF : Request Send OTP SMS Done
+RBFF -->> MOB : Request Send OTP SMS Done
+
+MOB -> PROS : Prompt OTP
+
+alt In China
+  CHUB -> EMMA
+  EMMA -> PROS : SMS OTP
+else Everywhere else
+  CHUB -> TW
+  TW -> PROS : SMS OTP
+end
+
+PROS -> MOB : Submit OTP
+
+MOB -> RBFF : Request OTP Verification
+RBFF -> IDA : Request OTP Verification
+
+IDA -> CACHE : Find Mobile number and OTP
+
+alt Mobile number and OTP exists
+  IDA -> IDA : Check Mobile Number Blocklist
+
+  
+   
+else
+end
+
+@enduml

@@ -1,29 +1,104 @@
 @startuml
-participant Prospect as PROS
+autonumber
+
+Title Mobile Number Registration
+
+actor Prospect as PROS
 participant Mobile as MOB
 participant "Registration BFF" as RBFF
-participant User as User
+participant "User Profile" as User
 participant "Identity and Access" as IDA
+participant "ID&A Cache" as CACHE
+participant "IAM Gateway" as IAMG
+participant "CIAM" as CIAM
 participant "Communication Hub" as CHUB
 participant EMMA as EMMA
 participant Twillio as TW
 
 PROS -> MOB : Register by Mobile Number(email, mobile)
-MOB -> RBFF : Verify Device ownership
-RBFF -> IDA : Verify Device ownership
-IDA -> CHUB : Send OTP SMS
+MOB -> RBFF : Request Mobile Number Registration
+RBFF -> IDA : Request Verify Device Ownership
+
+IDA -> CACHE : Find OTP by Mobile Number
+alt Mobile not exists
+  IDA -> IDA : Generate OTP
+  IDA -> CACHE : Save OTP with TTL ? seconds  
+end
+
+note right: OTP timeout TBD
+IDA ->> CHUB : Request Send OTP SMS
+
+IDA -->> RBFF : Request Send OTP SMS Done
+RBFF -->> MOB : Request Send OTP SMS Done
+
+MOB -> PROS : Prompt OTP
 
 alt In China
-  CHUB --> EMMA
+  CHUB -> EMMA
+  EMMA -> PROS : SMS OTP
 else Everywhere else
-  CHUB --> TW
+  CHUB -> TW
+  TW -> PROS : SMS OTP
 end
 
 PROS -> MOB : Submit OTP
 
-MOB -> RBFF : Register User By Mobile Number
-RBFF -> User : Create User Profile
-User -->> RBFF : User Profile ID
+MOB -> RBFF : Request OTP Verification
+RBFF -> IDA : Request OTP Verification
+
+IDA -> CACHE : Find Mobile number and OTP
+
+alt Mobile number and OTP exists
+  IDA -> IDA : Check Mobile Number Blocklist
+  
+  IDA -->> RBFF : Request OTP Verification Done
+  Note right: OTP Verification Successful
+
+  RBFF -> IDA : Request Check Mobile Not Registered
+  IDA -> IAMG : Find Identity by Mobile Number
+  IAMG -> CIAM : Find Identity by Mobile Number
+
+  CIAM -> CIAM : Find Identity by Mobile Number
+  
+  CIAM -->> IAMG : Result
+
+  IAMG -->> IDA : Result
+
+  IDA -->> RBFF : Result
+
+  alt Identity with Matching Mobile Number Not Exists
+    RBFF -->> MOB : OTP Verified and No Matching Identity found
+    MOB --> PROS : Prompt Password, etc.
+    PROS -> MOB : Submit Password, etc.
+    
+    MOB -> RBFF : Request Register User
+    RBFF -> User : Request Create Customer Profile
+    User -> User : Find matching 
+    RBFF -> User : Request Create Profile
+    User -->> RBFF : UserProfileID
+    RBFF -> IDA : Request Create Credentials with UserProfileId
+    IDA -> IAMG : Request Create Credential with UserProfileId
+    IAMG -> CIAM : Create User Account
+    CIAM -> ADB2C : Create User Account
+    ADB2C -->> CIAM
+    CIAM -> CIAM: Append Mobile Number to Blocked List
+    CIAM -->> IAMG
+    IAMG -->> IDA
+    IDA -->> RBFF
+    RBFF -->> MOB : Request Register User Done
+  else Identity with Matching Mobile Number Found Exists
+    RBFF -->> MOB : OTP Verified and Matching Identity found
+    MOB -> PROS: Prompt Forgot Password
+    group Ref Forgot Password
+    end
+  end
+else Mobile Number and OTP Not Found
+  IDA -->> RBFF : Request OTP Verification Failed
+  Note right: OTP Verification Failed
+  RBFF -->> MOB : OTP Verification Failed
+end
+
+
 
 
 @enduml

@@ -1,0 +1,38 @@
+@startuml
+
+Title Search Policy
+
+component [Service Consumer] as SC << XAPI >>
+component [Individual Life] as IL << PAPI >>
+component [Corporate Solution] as CS << PAPI >>
+component [Pension] as PT << PAPI >>
+component [Vitality] as VT << PAPI >>
+
+component [OCMD] as OCMD << SAPI >>
+
+
+interface FindPolicyIF as PII1
+interface FindPolicyIF as PII2
+interface FindPolicyIF as PII3
+interface FindPolicyIF as PII4
+interface FindPolicyByCustomerIF as PII5
+
+SC ..> PII1
+SC ..> PII2
+SC ..> PII3
+SC ..> PII4
+
+PII1 - IL
+PII2 - CS
+PII3 - VT
+PII4 - PT
+
+IL ..> PII5
+CS ..> PII5
+VT ..> PII5
+PT ..> PII5
+
+PII5 - OCMD
+
+
+
