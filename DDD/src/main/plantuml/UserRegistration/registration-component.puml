@@ -1,44 +1,51 @@
 @startuml
-Component [Mobile App] as MOB
+Component [Mobile] as MOB
 Component [Web Portal] as WEB
 [Registration BFF] <<XAPI>> as RBFF
 [Identity and Access] <<PAPI>> as IDA
-[User] <<PAPI>> as User
-[Communication HUB] <<SAPI>> as CHUB
+[User Profile] <<PAPI>> as User
+[Communication Hub] <<SAPI>> as CHUB
 [Twillio] <<SMS Gateway>> as TWL
 [EMMA] <<SMS Gateway>> as EM
-[CIAM] as CIAM
-[ADB2C] as ADB2C
+[IAM Gateway] <<SAPI>> as IAMG
+[CIAM] <<Component>> as CIAM
+[ADB2C] <<SaaS>> as ADB2C
+
 interface Registration as RegIF
+interface CreateUser as IAMCreateUserIF
 interface OnboardUser as OBUserIF
 interface CreateCredential as CredIF
 interface SendSMS as SmsIF
 interface SendOTP as OtpIF
+interface CreateUser as CreateUserIF
 
 MOB ..> RegIF
 WEB ..> RegIF
 
-RegIF - RBFF
+RegIF -d- RBFF
 
 RBFF ..> OBUserIF
-OBUserIF - User
+OBUserIF -d- User
 
 
 
 RBFF ..> CredIF
 RBFF ..> OtpIF
-CredIF - IDA
-OtpIF - IDA
+CredIF -d- IDA
+OtpIF -d- IDA
 
 
 IDA ..> SmsIF
-SmsIF - CHUB
+SmsIF -d- CHUB
 
-IDA ..> CIAM
-CIAM ..> ADB2C
+IDA ..> IAMCreateUserIF
+IAMCreateUserIF -d- IAMG
 
-CredIF - CHUB
+IAMG ..> CreateUserIF
+CreateUserIF -d- CIAM
+CIAM -d- ADB2C
 
-CHUB ..> TWL
-CHUB ..> EM
+
+CHUB -d- TWL
+CHUB -d- EM
 @enduml

@@ -1,0 +1,83 @@
+@startuml
+
+hide stereotype
+
+!define osaPuml https://raw.githubusercontent.com/Crashedmind/PlantUML-opensecurityarchitecture2-icons/master
+!include osaPuml/Common.puml
+!include osaPuml/User/all.puml
+!include osaPuml/Hardware/all.puml
+!include osaPuml/Misc/all.puml
+!include osaPuml/Server/all.puml
+!include osaPuml/Site/all.puml
+
+
+top to bottom direction
+
+
+  ' Users
+  together {
+    osa_user_green_developer(vendor_it, "", "Vendor IT", "Developer")
+  }
+
+  ' Devices
+  together {
+    osa_laptop(vendor_laptop, "", "Mac", "Vendor Dev Laptop")
+    osa_server(vendor_build, "", "Mac", "Vendor Build Server")
+  }
+
+
+
+  ' Users
+together {
+    osa_user_green_developer(company_it, "", "Company IT", "Developer")
+}
+
+  ' Devices
+together {
+  osa_server(bitbucket, "", "Bit Bucket", "Company Repo")
+  osa_server(central_nesus, "", "Nesus", "Company Central Repo")
+  osa_server(project_nesus, "", "Nesus", "Company Project Repo")
+}
+
+together {
+  osa_server(company_build, "", "Linux", "Company Build API Server")
+  osa_server(company_mac_build, "", "Mac", "Company Build Mobile Server")
+
+}
+
+together {
+  osa_iPhone(company_iphone, "", "iPhone", "Company Test Mobile")
+}
+
+osa_server(azure_app_manager, "", "Azure", "Azure App Manager")
+
+vendor_it -r-> vendor_laptop
+
+vendor_laptop -d-> bitbucket
+vendor_laptop -d-> central_nesus
+vendor_laptop -d-> project_nesus
+
+vendor_build -d-> bitbucket
+vendor_build -d-> central_nesus
+vendor_build -d-> project_nesus
+
+vendor_build -> bitbucket
+
+company_build -u-> bitbucket
+company_build -u-> central_nesus
+company_build -u-> project_nesus
+
+company_build -d-> environment
+
+company_mac_build -u-> bitbucket
+company_mac_build -u-> central_nesus
+company_mac_build -u-> project_nesus
+
+company_mac_build -d-> azure_app_manager
+
+company_it -d-> azure_app_manager
+azure_app_manager -d-> environment
+
+company_iphone -u-> environment
+
+@enduml
