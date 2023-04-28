@@ -24,24 +24,24 @@ interface FindPolicyIF as PII3
 interface FindPolicyIF as PII4
 
  
-SC ..> PII1
-SC ..> PII2
-SC ..> PII3
-SC ..> PII4
+SC .d.> PII1
+SC .d.> PII2
+SC .d.> PII3
+SC .d.> PII4
 
-PII1 - IL
-PII2 - CS
-PII3 - PT
-PII4 - VT
+PII1 -d- IL
+PII2 -d- CS
+PII3 -d- PT
+PII4 -d- VT
 
-IL ..> AlphaSearch
-IL ..> FindPolicy
+IL .d.> AlphaSearch
+IL .d.> FindPolicy
 
-CS ..> EB
+CS .d.> EB
 
-VT ..> VAS
+VT .d.> VAS
 
-PT ..> PTBE
+PT .d.> PTBE
 
 
 

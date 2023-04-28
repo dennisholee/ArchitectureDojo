@@ -26,29 +26,28 @@ interface FindPolicyIF as PII3
 interface FindPolicyIF as PII4
 
 interface FindPolicyIF as PII5
- 
-SC ..> PII1
-SC ..> PII2
-SC ..> PII3
-SC ..> PII4
 
-PII1 - IL
-PII2 - CS
-PII3 - PT
-PII4 - VT
+SC .d.> PII1
+SC .d.> PII2
+SC .d.> PII3
+SC .d.> PII4
 
-IL ..> PII5
-CS ..> PII5
-PT ..> PII5
-VT ..> PII5
+PII1 -d- IL
+PII2 -d- CS
+PII3 -d- PT
+PII4 -d- VT
 
-PII5 - SSO
+IL .d.> PII5
+CS .d.> PII5
+PT .d.> PII5
+VT .d.> PII5
 
-SSO ..> AlphaSearch
-SSO ..> FindPolicy
-SSO ..> EB
-SSO ..> VAS
-SSO ..> PTBE
+PII5 -d- SSO
 
+SSO .d.> AlphaSearch
+SSO .d.> FindPolicy
+SSO .d.> EB
+SSO .d.> VAS
+SSO .d.> PTBE
 
 @enduml

@@ -17,22 +17,22 @@ interface FindPolicyIF as PII3
 interface FindPolicyIF as PII4
 interface FindPolicyByCustomerIF as PII5
 
-SC ..> PII1
-SC ..> PII2
-SC ..> PII3
-SC ..> PII4
+SC .d.> PII1
+SC .d.> PII2
+SC .d.> PII3
+SC .d.> PII4
 
-PII1 - IL
-PII2 - CS
-PII3 - VT
-PII4 - PT
+PII1 -d- IL
+PII2 -d- CS
+PII3 -d- VT
+PII4 -d- PT
 
-IL ..> PII5
-CS ..> PII5
-VT ..> PII5
-PT ..> PII5
+IL .d.> PII5
+CS .d.> PII5
+VT .d.> PII5
+PT .d.> PII5
 
-PII5 - OCMD
+PII5 -d- OCMD
 
 
 
