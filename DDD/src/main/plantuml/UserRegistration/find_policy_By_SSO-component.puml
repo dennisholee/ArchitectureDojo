@@ -10,15 +10,10 @@ component [Vitality] as VT << PAPI >>
 
 component [SSO] as SSO << SAPI >>
 
-component [Client Module] as CM << Component >>
+component [Customer Corner] as CC << Component >>
 component [EBenefit] as EB << Component >>
 component [Vitality Admin Server (VAS)] as VAS << Component >>
 component [Pension BE] as PTBE << Component >>
-
-component CM {
-  port AlphaSearch
-  port FindPolicy
-}
 
 interface FindPolicyIF as PII1
 interface FindPolicyIF as PII2
@@ -44,8 +39,7 @@ VT .d.> PII5
 
 PII5 -d- SSO
 
-SSO .d.> AlphaSearch
-SSO .d.> FindPolicy
+SSO .d.> CC
 SSO .d.> EB
 SSO .d.> VAS
 SSO .d.> PTBE
