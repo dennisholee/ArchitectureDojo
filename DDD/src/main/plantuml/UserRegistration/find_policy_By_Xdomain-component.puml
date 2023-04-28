@@ -1,0 +1,32 @@
+@startuml
+
+Title Search Policy
+
+component [Service Consumer] as SC << XAPI >>
+
+component [SSO] as SSO << SAPI >>
+
+component [Customer Corner] as CC<< Component >>
+component [EBenefit] as EB << Component >>
+component [Vitality Admin Server (VAS)] as VAS << Component >>
+component [Pension BE] as PTBE << Component >>
+
+component [Policy Service] as PS << Component >>
+
+interface FindPolicyIF as PII1
+
+interface FindPolicyIF as PII5
+
+SC .d.> PII1
+
+PII1 -d- PS
+
+PS .d.> PII5
+PII5 -d- SSO
+
+SSO .d.> CC
+SSO .d.> EB
+SSO .d.> VAS
+SSO .d.> PTBE
+
+@enduml
