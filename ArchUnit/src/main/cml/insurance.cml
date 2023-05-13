@@ -1,0 +1,29 @@
+ContextMap Insurance {
+	
+	type = SYSTEM_LANDSCAPE
+	state = TO_BE
+	
+	contains Customer
+	contains IdentityAndAccess
+	
+	Customer [U, S] -> [D, C] IdentityAndAccess
+	
+}
+
+BoundedContext Customer {
+	Aggregate Customer {
+		Entity Customer {
+			aggregateRoot
+		}
+	}
+}
+
+BoundedContext IdentityAndAccess {
+	Aggregate Principal {
+		Entity Principal {
+			aggregateRoot
+		}
+		ValueObject Credentials
+	} 
+	
+}

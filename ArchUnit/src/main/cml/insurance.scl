@@ -1,0 +1,17 @@
+Compatibilities {
+}
+/* These Aggregates are generated from the CML model. Note that they are overwritten each time you use the service cut generator! */
+Aggregate "Customer" {
+}
+Aggregate "Principal" {
+}
+/* These Entities are generated from the CML model. Note that they are overwritten each time you use the service cut generator! */
+Entity "Customer" {
+}
+Entity "Principal" {
+}
+/* These predefined services are generated from the CML model. Note that they are overwritten each time you use the service cut generator! */
+PredefinedService "Customer" {
+}
+PredefinedService "IdentityAndAccess" {
+}
