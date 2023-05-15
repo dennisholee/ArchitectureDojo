@@ -1,0 +1,106 @@
+@startuml
+
+left to right direction
+
+actor "New Customer" as CUST
+
+package "AIA Plus" {
+  usecase "[MOB_LOGN]\nLogin" as MOB_LOGN
+  usecase "[MOB_HOME]\nShow Landing" as MOB_HOME
+  usecase "[MOB_SOTP]\nSubmit OTP" as MOB_SOTP
+  usecase "[MOB_RGBM]\nRegister Biometric" as MOB_RGBM
+  usecase "[MOB_AUBM]\nAuthenticate with Biometric" as MOB_AUBM
+
+}
+
+package "<<XAPI>>\nLogin BFF" {
+  usecase "[BFF_LOGN]\nLogin" as BFF_LOGN
+  usecase "[BFF_VOTP]\nVerify OTP" as BFF_VOTP
+  usecase "[BFF_RGBM]\nRegister Biometric" as BFF_RGBM
+  usecase "[BFF_AUBM]\nRegister Biometric" as BFF_AUBM
+}
+
+package "<<XAPI>>\nHome BFF" {
+  usecase "[BFF_HME]\nShow Home" as BFF_HOME
+}
+
+package "<<PAPI>>\nIdentity and Access" {
+  usecase "[IDA_LOGN]\nLogin" as IDA_LOGN
+  usecase "[IDA_GOTP]\nGenerate OTP" as IDA_GOTP
+  usecase "[IDA_DOTP]\nDispatch OTP" as IDA_DOTP
+  usecase "[IDA_VOTP]\nVerify OTP" as IDA_VOTP
+  usecase "[IDA_SBIOA]\nSetup Biometric AuthN" as IDA_SBIOA
+  usecase "[IDA_AUBM]\nAuthenticate with Biometric" as IDA_AUBM
+}
+
+package "<<PAPI>>\nCustomer Profile" {
+  usecase "[CP_GCUP]\nGet Customer Profile" as CP_GCUP
+}
+
+package "<<SAPI>>\nIAM Gateway" {
+  usecase "Authenticate User" as IAMG_AUTH
+}
+
+package "<<SAPI>>\niSprint Gateway" {
+  usecase "Setup Biometric AuthN" as ISG_SBIOA
+  usecase "Authenticate with Biometric" as ISG_AUBM
+}
+
+package "<<SAPI>>\nCommunication Hub" {
+  usecase "[CHUB_SOTP]\nSend OTP" as CHUB_SOTP
+}
+
+package "Azure B2C" {
+  usecase "[AB2C_AUTH]\nAuthenticate User" as AB2C_AUTH
+}
+
+package "Twillio" {
+  usecase "Send Email" as TWL_SEMAL
+  usecase "Send SMS" as TWL_SSMS
+}
+
+package "Emma" {
+  usecase "Send Email" as EMM_SEMAL
+  usecase "Send SMS" as EMM_SSMS
+}
+
+CUST--> MOB_LOGN
+CUST--> MOB_SOTP
+
+CUST--> MOB_AUBM
+
+MOB_LOGN --> BFF_LOGN
+MOB_LOGN ..> MOB_RGBM : include
+MOB_LOGN ..> MOB_HOME : include
+
+BFF_LOGN --> IDA_LOGN
+
+IDA_LOGN ..> IDA_GOTP : include
+IDA_LOGN ..> IDA_DOTP : include
+IDA_DOTP --> CHUB_SOTP
+CHUB_SOTP --> TWL_SEMAL
+CHUB_SOTP --> TWL_SSMS
+CHUB_SOTP --> EMM_SEMAL
+CHUB_SOTP --> EMM_SSMS
+
+IDA_LOGN --> IAMG_AUTH
+IAMG_AUTH --> AB2C_AUTH
+
+
+MOB_SOTP --> BFF_VOTP
+
+BFF_VOTP --> IDA_VOTP
+
+
+MOB_RGBM --> BFF_RGBM
+BFF_RGBM --> IDA_SBIOA
+IDA_SBIOA --> ISG_SBIOA
+
+MOB_HOME --> BFF_HOME
+BFF_HOME --> CP_GCUP
+
+MOB_AUBM --> BFF_AUBM
+BFF_AUBM --> IDA_AUBM
+IDA_AUBM --> ISG_AUBM
+
+@enduml
