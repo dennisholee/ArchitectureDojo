@@ -1,0 +1,79 @@
+@startuml
+
+left to right direction
+
+actor "New Customer" as CUST
+
+package "AIA Plus" {
+  usecase "[MOB_REGM]\nAccount Registration By Mobile Number" as MOB_REGM
+  usecase "[MOB_SOTP]\nSubmit OTP" as MOB_SOTP
+  usecase "[MOB_REGP]\nAccount Registration By Policy" as MOB_REGP
+  usecase "[MOB_REGE]\nAccount Registration By Easy Login" as MOB_REGE
+}
+
+package "<<XAPI>>\nRegistration BFF" {
+  usecase "[BFF_CMNO]\nCheck Mobile Number Ownership" as BFF_CMNO
+  usecase "[BFF_VOTP]\nVerify OTP" as BFF_VOTP
+  usecase "[BFF_RCUS]\nRegister Customer" as BFF_RCUS
+}
+
+package "<<PAPI>>\nIdentity and Access" {
+  usecase "[IDA_CMOB]\nCheck Mobile" as IDA_CMOB
+  usecase "[IDA_GOTP]\nGenerate OTP" as IDA_GOTP
+  usecase "[IDA_DOTP]\nDispatch OTP" as IDA_DOTP
+  usecase "[IDA_VOTP]\nVerify OTP" as IDA_VOTP
+  usecase "[IDA_CCRD]\nCreate Credentials" as IDA_CCRD
+}
+
+package "<<PAPI>>\nCustomer Profile" {
+  usecase "[CP_CCUP]\nCreate Customer Profile" as CP_CCUP
+}
+
+package "<<SAPI>>\nIAM Gateway" {
+  usecase "[IAMG_CPPL]\nCreate Principal" as IAMG_CPPL
+}
+
+package "<<SAPI>>\niSprint Gateway" {
+  usecase "Generate OTP" as ISG_GOTP
+}
+
+package "<<SAPI>>\nCommunication Hub" {
+  usecase "[CHUB_SOTP]\nSend OTP" as CHUB_SOTP
+}
+
+package "Azure B2C" {
+  usecase "[AB2C_AUTH]\nAuthenticate User" as AB2C_AUTH
+}
+
+package "Twillio" {
+  usecase "Send SMS" as TWL_SSMS
+}
+
+package "Emma" {
+  usecase "Send SMS" as EMM_SSMS
+}
+
+CUST --> MOB_REGM
+CUST --> MOB_REGP
+CUST --> MOB_REGE
+
+MOB_REGM ..> MOB_SOTP : include
+MOB_REGM --> BFF_CMNO
+BFF_CMNO --> IDA_CMOB
+
+IDA_CMOB ..> IDA_GOTP : include
+IDA_GOTP --> ISG_GOTP
+IDA_CMOB ..> IDA_DOTP : include
+IDA_DOTP --> CHUB_SOTP
+CHUB_SOTP --> TWL_SSMS
+CHUB_SOTP --> EMM_SSMS
+
+MOB_SOTP --> BFF_VOTP
+
+BFF_VOTP --> IDA_VOTP
+MOB_REGM --> BFF_RCUS
+
+BFF_RCUS --> CP_CCUP
+BFF_RCUS --> IDA_CCRD
+
+@enduml
