@@ -1,0 +1,49 @@
+@startuml
+
+participant User as USER
+participant "Mobile App" as MOB
+participant "App Server" as BE
+participant "i-Sprint" as IS
+
+
+USER -> MOB : Registration
+MOB -->> USER : Prompt User ID
+USER -> MOB : Input userdId
+MOB -> BE : Request Registration by User ID (userId)
+BE -> IS : Request Create User ID (userId)
+IS -> IS : Create User (userId)
+IS -->> BE : Create User ID Done
+BE -->> MOB : Create User ID Done
+
+MOB -> MOB : Generate Random PIN (call enablePIN API)
+MOB -> MOB : Store PIN (protected by mobile namtive biometric e.g. touch ID, face ID)
+MOB -> MOB : Generate Key Pair - pubKey, priKey
+MOB -> MOB : Get Mobile's deviceId
+MOB -> BE : Request pre-activation (deviceId. userId pubKey)
+BE -> IS : Create Token Seed (deviceId, userId, pubKey)
+IS -> IS : Create Token and assign it and deviceId to userId
+note right : Access token with timeout set to x mins?
+IS -> IS : Create Activation Code - activationCode 
+IS -> IS : Encrypt Token using pubKey and activationCode - encToken
+IS -->> BE : encToken, activationCode
+BE -->> MOB : encToken
+BE -> USER: Send activationCode
+
+USER -> MOB : Input activation code
+MOB -> MOB : Decrypt encToken with priKey and activationCode
+MOB -> MOB : Get PIN
+note left : Documentation is unclear on what the PIN is for.
+MOB -> MOB : Generate OTP - otp
+MOB -> BE : Post Activation (otp)
+BE -> IS : Activate token by OTP (otp)
+IS -->> BE : Verification Done
+BE -->> MOB : Verification Done
+MOB -> MOB : Register Done
+
+
+
+
+
+
+
+@enduml
