@@ -1,0 +1,127 @@
+openapi: 3.0.3
+info:
+  title: DDD Demo - OpenAPI 3.0
+  description: |-
+    DDD Demo API for testing.
+  termsOfService: https://github.com/dennisholee
+  contact:
+    email: dennisholee@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://github.com/dennisholee
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: https://github.com/dennisholee
+servers:
+  - url: http://localhost:8081/api
+    description: Development server
+  - url: https://localhost:8081/api
+    description: Development server with TLS Profile
+tags:
+  - name: medicalClaims
+    description: Medical Claim resources
+    externalDocs:
+      description: Find out more
+      url: http://swagger.io
+      
+paths:
+  /medicalClaims:
+    post:
+      tags:
+        - medicalClaims
+      summary: Add a new claim
+      description: Add a new claim
+      operationId: addClaim
+      requestBody:
+        description: Create a new claim
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Claim'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Claim'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Claim'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '405':
+          description: Invalid input
+      security:
+        - jhipsterdemo_auth:
+            - write:customer
+            - read:customer
+  /medicalClaims/{claimId}:
+    get:
+      tags:
+        - medicalClaims
+      summary: Get Claims by ID
+      description: Returns a single Claim
+      operationId: getClaimsById
+      parameters:
+        - name: claimId
+          in: path
+          description: ID of customer to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Claim'          
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Claim'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Customer not found
+#      security:
+#        - api_key: []
+#        - jhipsterdemo_auth:
+#            - write:customer
+#            - read:customer
+    
+
+components:
+  schemas:
+    Claim:
+      type: object
+      properties:
+        consultationDate:
+          type: string
+          format: date
+          example: "2022-12-31"
+        submissionDate:
+          type: string
+          format: date
+          example: "2022-12-31"
+          
+  securitySchemes:
+    jhipsterdemo_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://petstore3.swagger.io/oauth/authorize
+          scopes:
+            write:customer: modify customer
+            read:customer: read customer
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
