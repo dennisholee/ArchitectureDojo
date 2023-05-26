@@ -12,6 +12,7 @@ import io.forest.ddd.domain.claim.specification.ConsultationDateSpec;
 import io.forest.ddd.domain.claim.specification.ReceiptSpec;
 import io.forest.ddd.domain.command.SubmitClaimCommand;
 import io.forest.ddd.domain.event.SubmitClaimsCreatedEvent;
+import io.forest.ddd.domain.event.SubmitClaimsRejectedEvent;
 
 @AggregateRoot
 public class MedicalClaims {
@@ -22,13 +23,13 @@ public class MedicalClaims {
 	private LocalDate consultationDate;
 	private Receipt receipt;
 
-	private ClaimsStatus claimsStatus;
+	ClaimsStatus claimsStatus;
 
-	public MedicalClaims() {
+	protected MedicalClaims() {
 
 	}
 
-	public MedicalClaims(UUID id) {
+	protected MedicalClaims(UUID id) {
 		this.id = id;
 	}
 
@@ -43,12 +44,17 @@ public class MedicalClaims {
 
 		if (submitClaimSatified) {
 			this.claimsStatus = ClaimsStatus.SUBMITTED;
-		}
 
-		SubmitClaimsCreatedEvent event = new SubmitClaimsCreatedEvent();
-		event.setClaims(this);
-		DomainEventPublisher.instance()
-				.publish(event);
+			SubmitClaimsCreatedEvent event = new SubmitClaimsCreatedEvent();
+			event.setClaims(this);
+			DomainEventPublisher.instance()
+					.publish(event);
+		} else {
+			SubmitClaimsRejectedEvent event = new SubmitClaimsRejectedEvent();
+			event.setClaims(this);
+			DomainEventPublisher.instance()
+					.publish(event);
+		}
 	}
 
 	public UUID getId() {

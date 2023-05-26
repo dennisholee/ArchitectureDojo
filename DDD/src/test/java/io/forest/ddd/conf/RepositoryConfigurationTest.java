@@ -11,7 +11,7 @@ import io.forest.ddd.port.MedicalClaimsRepository;
 
 @Profile("test")
 @Configuration
-public class RepositoryTestConfiguration {
+public class RepositoryConfigurationTest {
 
 	@Bean
 	@Primary

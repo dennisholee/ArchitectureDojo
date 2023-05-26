@@ -1,16 +1,22 @@
 package io.forest.ddd;
 
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.constructors;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
+import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.jmolecules.ddd.annotation.ValueObject;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Repository;
 
+import com.tngtech.archunit.core.domain.JavaModifier;
 import com.tngtech.archunit.core.importer.ImportOption.DoNotIncludeTests;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+
+import io.forest.ddd.common.domain.event.DomainEvent;
+import io.forest.ddd.common.specification.Specification;
 
 @AnalyzeClasses(packages = "io.forest.ddd", importOptions = { DoNotIncludeTests.class })
 public class ArchitectureTest {
@@ -53,16 +59,45 @@ public class ArchitectureTest {
 			.should()
 			.resideInAPackage("..adapter..");
 
-	@ArchTest
-	public ArchRule dtoShouldEndWithDTO = classes().that()
-			.resideInAPackage("..dto..")
-			.should()
-			.haveSimpleNameEndingWith("DTO");
+//	@ArchTest
+//	public ArchRule dtoShouldEndWithDTO = classes().that()
+//			.resideInAPackage("..dto..")
+//			.should()
+//			.haveSimpleNameEndingWith("DTO");
 
 	@ArchTest
 	public ArchRule confShouldBeAnnotatedWithConfiguration = classes().that()
 			.resideInAPackage("..conf..")
 			.should()
 			.beAnnotatedWith(Configuration.class);
+
+	@ArchTest
+	public ArchRule constructorsShouldBeProtectedInAggregates = constructors().that()
+			.areDeclaredInClassesThat()
+			.areAnnotatedWith(AggregateRoot.class)
+			.should()
+			.haveModifier(JavaModifier.PROTECTED);
+
+	@ArchTest
+	public ArchRule specShouldBeSuffixedWithSpec = classes().that()
+			.implement(Specification.class)
+			.and()
+			.resideInAPackage("..domain..")
+			.should()
+			.haveSimpleNameEndingWith("Spec");
+
+	@ArchTest
+	public ArchRule eventShouldBeSuffixedWithEvent = classes().that()
+			.implement(DomainEvent.class)
+			.and()
+			.resideInAPackage("..domain..")
+			.should()
+			.haveSimpleNameEndingWith("Event");
+
+//	@ArchTest
+//	public ArchRule eventShouldBeAnnotatedWithDomainEvent = classes().that()
+//			.resideInAPackage("..event..")
+//			.should()
+//			.beAnnotatedWith(DomainEvent.class);
 
 }

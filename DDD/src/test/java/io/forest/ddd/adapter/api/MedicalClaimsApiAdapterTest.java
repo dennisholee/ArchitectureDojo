@@ -18,13 +18,13 @@ import org.springframework.test.context.ActiveProfiles;
 import io.forest.ddd.adapter.api.dto.Claim;
 import io.forest.ddd.conf.ApiConfiguration;
 import io.forest.ddd.conf.ApplicationConfiguration;
-import io.forest.ddd.conf.RepositoryTestConfiguration;
+import io.forest.ddd.conf.RepositoryConfigurationTest;
 import io.forest.ddd.domain.claim.model.MedicalClaims;
 import io.forest.ddd.port.MedicalClaimsRepository;
 
 @ActiveProfiles("test")
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = { ApiConfiguration.class, ApplicationConfiguration.class, RepositoryTestConfiguration.class })
+@SpringBootTest(classes = { ApiConfiguration.class, ApplicationConfiguration.class, RepositoryConfigurationTest.class })
 class MedicalClaimsApiAdapterTest {
 
 	@Mock

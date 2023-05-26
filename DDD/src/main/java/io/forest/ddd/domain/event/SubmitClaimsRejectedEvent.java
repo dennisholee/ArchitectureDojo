@@ -6,13 +6,13 @@ import io.forest.ddd.common.domain.event.DomainEvent;
 import io.forest.ddd.domain.claim.model.MedicalClaims;
 
 
-public class SubmitClaimsCreatedEvent implements DomainEvent {
+public class SubmitClaimsRejectedEvent implements DomainEvent {
 
 	private LocalDate createDate;
 
 	private MedicalClaims claims;
 
-	public SubmitClaimsCreatedEvent() {
+	public SubmitClaimsRejectedEvent() {
 		this.createDate = LocalDate.now();
 	}
 

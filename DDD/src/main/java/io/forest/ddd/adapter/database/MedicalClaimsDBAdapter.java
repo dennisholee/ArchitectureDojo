@@ -2,7 +2,7 @@ package io.forest.ddd.adapter.database;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import io.forest.ddd.domain.claim.model.MedicalClaims;
@@ -11,9 +11,9 @@ import io.forest.ddd.port.MedicalClaimsRepository;
 @Component
 public class MedicalClaimsDBAdapter implements MedicalClaimsRepository {
 
-	private ClaimsRepository repository;
+	private MedicalClaimRepository repository;
 
-	public MedicalClaimsDBAdapter(ClaimsRepository repository) {
+	public MedicalClaimsDBAdapter(MedicalClaimRepository repository) {
 		this.repository = repository;
 	}
 
