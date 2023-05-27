@@ -3,7 +3,7 @@ package io.forest.ddd.adapter.api;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import io.forest.ddd.adapter.api.dto.Claim;
+import io.forest.ddd.adapter.api.server.dto.Claim;
 import io.forest.ddd.application.dto.ClaimsDTO;
 
 @Mapper

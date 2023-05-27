@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import io.forest.ddd.adapter.api.dto.Claim;
+import io.forest.ddd.adapter.api.server.dto.Claim;
 import io.forest.ddd.conf.ApiConfiguration;
 import io.forest.ddd.conf.ApplicationConfiguration;
 import io.forest.ddd.conf.RepositoryConfigurationTest;

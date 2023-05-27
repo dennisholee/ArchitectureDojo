@@ -13,24 +13,19 @@
 # http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
 # ===================================================================
 
+eureka:
+  client:
+    enabled: false
+  instance:
+    appname: jhipsterdemo
+    instanceId: jhipsterdemo:${spring.application.instance-id:${random.value}}
+
 spring:
   application:
     name: jhipsterdemo
   cloud:
-    stream:
-      kafka:
-        binder:
-          replicationFactor: 1
-          auto-create-topics: true
-        bindings:
-          binding-in-sse:
-            destination: sse-topic
-            content-type: text/plain
-            group: jhipsterdemo
-          binding-out-sse:
-            destination: sse-topic
-            content-type: text/plain
-            group: jhipsterdemo
+    config:
+      enabled: false
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: test

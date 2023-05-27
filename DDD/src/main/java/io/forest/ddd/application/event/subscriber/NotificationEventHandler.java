@@ -17,4 +17,9 @@ public class NotificationEventHandler implements DomainEventSubscriber<SubmitCla
 		this.publishDomainEventMessageGatewaygateway.publishEvent(event);
 	}
 
+	@Override
+	public Class<SubmitClaimsCreatedEvent> subscribedToEventType() {
+		return SubmitClaimsCreatedEvent.class;
+	}
+
 }

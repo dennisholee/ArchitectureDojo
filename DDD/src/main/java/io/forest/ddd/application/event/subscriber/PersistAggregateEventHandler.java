@@ -12,11 +12,16 @@ public class PersistAggregateEventHandler implements DomainEventSubscriber<Submi
 	public PersistAggregateEventHandler(MedicalClaimsRepository medicalClaimsRepository) {
 		this.medicalClaimsRepository = medicalClaimsRepository;
 	}
-		
+
 	@Override
 	public void handleEvent(SubmitClaimsCreatedEvent event) {
 		MedicalClaims claims = event.getClaims();
 		medicalClaimsRepository.save(claims);
+	}
+
+	@Override
+	public Class<SubmitClaimsCreatedEvent> subscribedToEventType() {
+		return SubmitClaimsCreatedEvent.class;
 	}
 
 }

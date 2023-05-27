@@ -2,15 +2,15 @@ package io.forest.archunit.domains.model;
 
 import java.util.Objects;
 
-public class CustomerStatus {
+public class UserStatus {
 
-	public static CustomerStatus ACTIVE = new CustomerStatus("ACTIVE");
+	public static UserStatus ACTIVE = new UserStatus("ACTIVE");
 	
-	public static CustomerStatus INACTIVE = new CustomerStatus("INACTIVE");
+	public static UserStatus INACTIVE = new UserStatus("INACTIVE");
 	
 	private String status;
 
-	private CustomerStatus(String status) {
+	private UserStatus(String status) {
 		this.status = status;
 	}
 	
@@ -28,7 +28,7 @@ public class CustomerStatus {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CustomerStatus other = (CustomerStatus) obj;
+		UserStatus other = (UserStatus) obj;
 		return Objects.equals(status, other.status);
 	}
 

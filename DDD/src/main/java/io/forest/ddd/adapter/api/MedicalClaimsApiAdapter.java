@@ -3,7 +3,8 @@ package io.forest.ddd.adapter.api;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import io.forest.ddd.adapter.api.dto.Claim;
+import io.forest.ddd.adapter.api.server.MedicalClaimsApiDelegate;
+import io.forest.ddd.adapter.api.server.dto.Claim;
 import io.forest.ddd.application.dto.ClaimsDTO;
 import io.forest.ddd.port.SubmitClaim;
 

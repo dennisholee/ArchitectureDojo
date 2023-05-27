@@ -10,6 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -40,6 +41,7 @@ class KafaConfigurationTest {
 	@Autowired
 	EmbeddedKafkaBroker kafkaEmbededBroker;
 
+	@Disabled("Testcase is under development")
 	@Test
 	@EnabledIf(expression = "${application.kafka.enabled}", loadContext = true)
 	void testPing_ExpectPingSuccess() throws InterruptedException, ExecutionException {

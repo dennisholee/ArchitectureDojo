@@ -10,33 +10,31 @@ class DomainEventPublisherTest {
 	void test() {
 
 		DomainEventPublisher domainEventPublisher = DomainEventPublisher.instance();
-		
-		DomainEvent event = new DomainEvent() {
 
+		DomainEventSubscriber<TestDomainEvent> subscriber = new DomainEventSubscriber<TestDomainEvent>() {
 			@Override
-			public LocalDate createDate() {
-				return LocalDate.now();
-			}
-		};
-
-		DomainEventSubscriber subscriber = new DomainEventSubscriber<DomainEvent>() {
-			@Override
-			public void handleEvent(DomainEvent event) {
+			public void handleEvent(TestDomainEvent event) {
 				System.out.println("Hello world");
 			}
-		};
 
-		DomainEventSubscriber subscriber1 = new DomainEventSubscriber<DomainEvent>() {
 			@Override
-			public void handleEvent(DomainEvent event) {
-				System.out.println("Hello world");
+			public Class<TestDomainEvent> subscribedToEventType() {
+
+				return TestDomainEvent.class;
 			}
 		};
 
 		domainEventPublisher.addSubscriber(subscriber);
-		domainEventPublisher.addSubscriber(subscriber1);
 
-		
+		TestDomainEvent event = new TestDomainEvent();
 		domainEventPublisher.publish(event);
 	}
 }
+
+class TestDomainEvent implements DomainEvent {
+
+	@Override
+	public LocalDate createDate() {
+		return LocalDate.now();
+	}
+};

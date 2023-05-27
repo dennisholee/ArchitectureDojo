@@ -20,10 +20,12 @@ logging:
     org.hibernate.SQL: DEBUG
     io.forest.jhipsterdemo: DEBUG
 
-management:
-  health:
-    elasticsearch:
-      enabled: false
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
 
 spring:
   devtools:
@@ -35,6 +37,14 @@ spring:
   jackson:
     serialization:
       indent-output: true
+  cloud:
+    config:
+      uri: http://admin:${jhipster.registry.password}@localhost:8761/config
+      # name of the config server's property source (file.yml) that we want to use
+      name: jhipsterdemo
+      profile: dev
+      label: main # toggle to switch to a different version of the configuration as stored in git
+      # it can be set to any label, branch or commit of the configuration source Git repository
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:h2:file:./target/h2db/db/jhipsterdemo;DB_CLOSE_DELAY=-1;MODE=LEGACY
@@ -48,8 +58,6 @@ spring:
       # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
-  elasticsearch:
-    uris: http://localhost:9200
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
@@ -82,13 +90,8 @@ server:
 # ===================================================================
 
 jhipster:
-  cache: # Cache configuration
-    redis: # Redis configuration
-      expiration: 3600 # By default objects stay 1 hour (in seconds) in the cache
-      server: redis://localhost:6379
-      cluster: false
-      # server: redis://localhost:6379,redis://localhost:16379,redis://localhost:26379
-      # cluster: true
+  registry:
+    password: admin
   # CORS is disabled by default on microservices, as you should access them through a gateway.
   # If you want to enable it, please uncomment the configuration below.
   # cors:
