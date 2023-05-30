@@ -1,8 +1,8 @@
 openapi: 3.0.3
 info:
-  title: DDD Demo - OpenAPI 3.0
+  title: DDD Demo Gateway - OpenAPI 3.0
   description: |-
-    DDD Demo API for testing.
+    DDD Demo Gateway API for testing.
   termsOfService: https://github.com/dennisholee
   contact:
     email: dennisholee@gmail.com
@@ -19,32 +19,32 @@ servers:
   - url: https://localhost:8081/api
     description: Development server with TLS Profile
 tags:
-  - name: medicalClaims
-    description: Medical Claim resources
+  - name: Email
+    description: Email notification
     externalDocs:
       description: Find out more
       url: http://swagger.io
       
 paths:
-  /medicalClaims:
+  /email:
     post:
       tags:
-        - medicalClaims
-      summary: Add a new claim
-      description: Add a new claim
-      operationId: addClaim
+        - Email
+      summary: Send email
+      description: Send email
+      operationId: sendEmail
       requestBody:
-        description: Create a new claim
+        description: Send email
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Claim'
+              $ref: '#/components/schemas/EmailNotification'
           application/xml:
             schema:
-              $ref: '#/components/schemas/Claim'
+              $ref: '#/components/schemas/EmailNotification'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/Claim'
+              $ref: '#/components/schemas/EmailNotification'
         required: true
       responses:
         '200':
@@ -52,68 +52,39 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Claim'          
+                $ref: '#/components/schemas/EmailNotification'          
             application/xml:
               schema:
-                $ref: '#/components/schemas/Claim'
+                $ref: '#/components/schemas/EmailNotification'
         '405':
           description: Invalid input
       security:
-        - jhipsterdemo_auth:
+        - bearerAuth:
             - write:customer
             - read:customer
-  /medicalClaims/{claimId}:
-    get:
-      tags:
-        - medicalClaims
-      summary: Get Claims by ID
-      description: Returns a single Claim
-      operationId: getClaimsById
-      parameters:
-        - name: claimId
-          in: path
-          description: ID of customer to return
-          required: true
-          schema:
-            type: integer
-            format: int64
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Claim'          
-            application/xml:
-              schema:
-                $ref: '#/components/schemas/Claim'
-        '400':
-          description: Invalid ID supplied
-        '404':
-          description: Customer not found
-#      security:
-#        - api_key: []
-#        - jhipsterdemo_auth:
-#            - write:customer
-#            - read:customer
-    
 
 components:
   schemas:
-    Claim:
+    EmailNotification:
       type: object
       properties:
-        consultationDate:
+        to:
           type: string
-          format: date
-          example: "2022-12-31"
-        submissionDate:
+          format: email
+          minLength: 3
+          maxLength: 100
+          example: "john.doe@email.com"
+        subject:
           type: string
-          format: date
-          example: "2022-12-31"
+          maxLength: 100
+          example: "Greetings from John"
+        body:
+          type: string
+          maxLength: 1000
+          example: Hi Paul, Nice to meet you.
           
   securitySchemes:
-    jhipsterdemo_auth:
+    bearerAuth:
       type: oauth2
       flows:
         implicit:

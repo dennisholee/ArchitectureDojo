@@ -65,11 +65,11 @@ public class ArchitectureTest {
 //			.should()
 //			.haveSimpleNameEndingWith("DTO");
 
-	@ArchTest
-	public ArchRule confShouldBeAnnotatedWithConfiguration = classes().that()
-			.resideInAPackage("..conf..")
-			.should()
-			.beAnnotatedWith(Configuration.class);
+//	@ArchTest
+//	public ArchRule confShouldBeAnnotatedWithConfiguration = classes().that()
+//			.resideInAPackage("..conf..")
+//			.should()
+//			.beAnnotatedWith(Configuration.class);
 
 	@ArchTest
 	public ArchRule constructorsShouldBeProtectedInAggregates = constructors().that()

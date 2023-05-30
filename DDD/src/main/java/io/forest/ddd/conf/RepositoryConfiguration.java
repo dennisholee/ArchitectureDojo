@@ -2,32 +2,31 @@ package io.forest.ddd.conf;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 
 import io.forest.ddd.adapter.database.ClaimsQueryStore;
 import io.forest.ddd.adapter.database.MedicalClaimRepository;
 import io.forest.ddd.adapter.database.MedicalClaimsDBAdapter;
 
-@Configuration
+
 public class RepositoryConfiguration {
 
-	@Autowired(required = true)
-	MedicalClaimRepository medicalClaimsRepository;
+//	@Autowired(required = true)
+//	MedicalClaimRepository medicalClaimsRepository;
 
-//	@Autowired
+// 	@Autowired
 //	ClaimsQueryStore claimsQueryStore;
 
-	@Autowired
-	MongoTemplate mongoTemplate;
+//	@Autowired
+//	MongoTemplate mongoTemplate;
+
+//	@Bean
+//	public MedicalClaimsDBAdapter medicalClaimsDBAdapter(@Autowired MedicalClaimRepository medicalClaimsRepository) {
+//		return new MedicalClaimsDBAdapter(medicalClaimsRepository);
+//	}
 
 	@Bean
-	public MedicalClaimsDBAdapter medicalClaimsDBAdapter() {
-		return new MedicalClaimsDBAdapter(medicalClaimsRepository);
-	}
-
-	@Bean
-	public ClaimsQueryStore claimsQueryStore() {
+	public ClaimsQueryStore claimsQueryStore(@Autowired MongoTemplate mongoTemplate) {
 		return new ClaimsQueryStore(mongoTemplate);
 	}
 

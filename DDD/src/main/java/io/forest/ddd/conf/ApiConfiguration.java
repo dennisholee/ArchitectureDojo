@@ -7,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import io.forest.ddd.adapter.api.MedicalClaimsApiAdapter;
 import io.forest.ddd.port.SubmitClaim;
 
-@Configuration
 public class ApiConfiguration {
 
 	@Autowired

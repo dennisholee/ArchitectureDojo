@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import io.forest.ddd.domain.claim.model.MedicalClaims;
 import io.forest.ddd.port.MedicalClaimsRepository;
 
-@Component
 public class MedicalClaimsDBAdapter implements MedicalClaimsRepository {
 
 	private MedicalClaimRepository repository;

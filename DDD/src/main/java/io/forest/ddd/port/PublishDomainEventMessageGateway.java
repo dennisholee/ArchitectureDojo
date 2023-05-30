@@ -1,8 +1,8 @@
 package io.forest.ddd.port;
 
-import io.forest.ddd.common.domain.event.DomainEvent;
+import io.forest.ddd.application.dto.DomainEventDTO;
 
-public interface PublishDomainEventMessageGateway<T extends DomainEvent> {
+public interface PublishDomainEventMessageGateway<T extends DomainEventDTO> {
 
 	public void publishEvent(T event);
 }

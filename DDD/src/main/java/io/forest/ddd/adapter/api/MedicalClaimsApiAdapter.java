@@ -15,6 +15,11 @@ public class MedicalClaimsApiAdapter implements MedicalClaimsApiDelegate {
 	public MedicalClaimsApiAdapter(SubmitClaim submitClaim) {
 		this.submitClaim = submitClaim;
 	}
+	
+	@Override
+	public ResponseEntity<Claim> getClaimsById(Long claimId) {
+		return new ResponseEntity<Claim>(HttpStatus.OK).ok(null);
+	}
 
 	@Override
 	public ResponseEntity<Claim> addClaim(Claim claim) {

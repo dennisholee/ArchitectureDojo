@@ -12,7 +12,7 @@ import io.forest.ddd.domain.claim.model.MedicalClaims;
 class ConsultationDateSpecTest {
 
 	@Test
-	void test_isSatifisfied_WithValidConsultationDate_ExpectSuccess() {
+	void testIsSatifisfied_WithValidConsultationDate_ExpectSuccess() {
 		LocalDate consultationDate = LocalDate.now();
 
 		MedicalClaims c = new ClaimsFactory().withConsultationDate(consultationDate)
@@ -24,7 +24,7 @@ class ConsultationDateSpecTest {
 	}
 
 	@Test
-	void test_isSatifisfied_WithExpiredConsultationDate_ExpectFail() {
+	void testIsSatifisfied_WithExpiredConsultationDate_ExpectFail() {
 		LocalDate consultationDate = LocalDate.now()
 				.minusDays(30);
 
@@ -37,7 +37,7 @@ class ConsultationDateSpecTest {
 	}
 
 	@Test
-	void test_isSatifisfied_WithFutureConsultationDate_ExpectFail() {
+	void testIsSatifisfied_WithFutureConsultationDate_ExpectFail() {
 		LocalDate consultationDate = LocalDate.now()
 				.plusDays(1);
 

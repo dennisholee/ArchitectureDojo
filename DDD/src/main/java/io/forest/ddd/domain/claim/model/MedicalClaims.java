@@ -50,6 +50,8 @@ public class MedicalClaims {
 			DomainEventPublisher.instance()
 					.publish(event);
 		} else {
+			this.claimsStatus = ClaimsStatus.REJECTED;
+			
 			SubmitClaimsRejectedEvent event = new SubmitClaimsRejectedEvent();
 			event.setClaims(this);
 			DomainEventPublisher.instance()

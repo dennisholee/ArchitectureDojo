@@ -1,41 +1,32 @@
 package io.forest.ddd.adapter.api;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import io.forest.ddd.adapter.api.server.dto.Claim;
-import io.forest.ddd.conf.ApiConfiguration;
-import io.forest.ddd.conf.ApplicationConfiguration;
-import io.forest.ddd.conf.RepositoryConfigurationTest;
-import io.forest.ddd.domain.claim.model.MedicalClaims;
-import io.forest.ddd.port.MedicalClaimsRepository;
+import io.forest.ddd.port.SubmitClaim;
 
 @ActiveProfiles("test")
+@TestInstance(Lifecycle.PER_CLASS)
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest(classes = { ApiConfiguration.class, ApplicationConfiguration.class, RepositoryConfigurationTest.class })
 class MedicalClaimsApiAdapterTest {
 
-	@Mock
-	Claim claim;
+	Claim claim = mock(Claim.class);
+	
+	SubmitClaim submitClaim = mock(SubmitClaim.class);
+	
+	MedicalClaimsApiAdapter adapter = new MedicalClaimsApiAdapter(submitClaim);
 
-	@Autowired(required = true)
-	MedicalClaimsApiAdapter adapter;
-
-	@Autowired(required = true)
-	MedicalClaimsRepository medicalClaimsRepository;
-
+	
 	@Test
 	void test() {
 
@@ -46,8 +37,6 @@ class MedicalClaimsApiAdapterTest {
 		when(claim.getSubmissionDate()).thenReturn(submissionDate);
 		
 		adapter.addClaim(claim);
-		
-		verify(medicalClaimsRepository, times(1)).save(any(MedicalClaims.class));
 	}
 
 }

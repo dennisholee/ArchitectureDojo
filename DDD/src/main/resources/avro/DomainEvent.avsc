@@ -1,0 +1,8 @@
+{
+	"namespace": "io.forest.ddd.adapter.kafka.avro",
+	"type": "record",
+	"name": "DomainEventAVRO",
+	"fields": [
+	     {"name": "createDate", "type": "int", "logicalType": "date"}
+	 ]
+}

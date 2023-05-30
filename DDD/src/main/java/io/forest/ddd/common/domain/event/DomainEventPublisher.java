@@ -25,6 +25,9 @@ public class DomainEventPublisher {
 	}
 
 	public void addSubscriber(DomainEventSubscriber<?> subscriber) {
+		if(subscriber == null) {
+			throw new InvalidDomainEventSubscriber("Invalid domain event subscriber");
+		}
 		this.subscribers.add(subscriber);
 	}
 

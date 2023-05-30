@@ -7,28 +7,27 @@ import java.util.List;
 import org.bson.Document;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.BeanFactory;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.junit.jupiter.EnabledIf;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import io.forest.ddd.application.dto.ClaimsDTO;
-import io.forest.ddd.conf.MongoDBConfiguration;
-import io.forest.ddd.conf.RepositoryConfiguration;
 
-//@SpringBootTest(classes = { MongoDBConfiguration.class, RepositoryConfiguration.class })
+@Disabled("Pending MongoDB embedded db setup.")
+//@DataMongoTest(excludeAutoConfiguration = { MongoAutoConfiguration.class, MongoDataAutoConfiguration.class
+//		, EmbeddedMongoAutoConfiguration.class })
+@DataMongoTest // (excludeAutoConfiguration = EmbeddedMongoAutoConfiguration.class)
+
+@ExtendWith(SpringExtension.class)
 class ClaimsQueryStoreTest {
 
-	@Autowired
-	BeanFactory factory;
-
-	@Disabled("Testcase is under development")
+	@Disabled("Pending MongoDB embedded db setup.")
 	@Test
 	@EnabledIf(expression = "${application.mongodb.enabled}", loadContext = true)
-	void testPing_ExpectPingSuccess() {
-		MongoTemplate mongoTemplate = factory.getBean(MongoTemplate.class);
-
+	void testPing_ExpectPingSuccess(@Autowired MongoTemplate mongoTemplate) {
 		assertThat(mongoTemplate).withFailMessage("Unable to load spring factory")
 				.isNotNull();
 
@@ -37,12 +36,10 @@ class ClaimsQueryStoreTest {
 				.isEqualTo(1);
 	}
 
-	@Disabled("Testcase is under development")
+	@Disabled("Pending MongoDB embedded db setup.")
 	@Test
 	@EnabledIf(expression = "${application.mongodb.enabled}", loadContext = true)
-	void testFindById_WithExistingRecord_ExpectRecordReturned() {
-		ClaimsQueryStore queryStore = factory.getBean(ClaimsQueryStore.class);
-
+	void testFindById_WithExistingRecord_ExpectRecordReturned(@Autowired ClaimsQueryStore queryStore) {
 		List<ClaimsDTO> claims = queryStore.findByClaimType("Medical");
 
 		assertThat(claims).isNotEmpty();

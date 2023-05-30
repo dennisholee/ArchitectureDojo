@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
+import org.jmolecules.ddd.annotation.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.stereotype.Repository;
 
 import io.forest.ddd.application.dto.ClaimsDTO;
 
@@ -16,7 +17,7 @@ public class ClaimsQueryStore {
 
 	private MongoTemplate mongoTemplate;
 
-	public ClaimsQueryStore(MongoTemplate mongoTemplate) {
+	public ClaimsQueryStore(@Autowired MongoTemplate mongoTemplate) {
 		this.mongoTemplate = mongoTemplate;
 	}
 
