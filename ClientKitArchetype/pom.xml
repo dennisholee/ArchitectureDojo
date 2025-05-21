@@ -1,0 +1,27 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>io.forest</groupId>
+    <artifactId>client-kit-archetype</artifactId>
+    <packaging>maven-archetype</packaging>
+
+    <version>1.0-SNAPSHOT</version>
+    <name>Client Kit Archetype</name>
+    <description>Maven archetype for creating client kit projects</description>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.archetype</groupId>
+                <artifactId>archetype-packaging</artifactId>
+                <version>${archetype-packaging.version}</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <properties>
+        <archetype-packaging.version>3.1.1</archetype-packaging.version>
+    </properties>
+</project>

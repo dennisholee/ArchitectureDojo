@@ -1,0 +1,58 @@
+<archetype-descriptor
+        xsi:schemaLocation="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0 http://maven.apache.org/xsd/archetype-descriptor-1.0.0.xsd
+        http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+        xmlns="http://maven.apache.org/plugins/maven-archetype-plugin/archetype-descriptor/1.0.0"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        name="${artifactId}">
+
+    <groupId>io.forest</groupId>
+    <artifactId>client-kit</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <requiredProperties>
+        <requiredProperty key="package">
+            <defaultValue>io.forest.clientkit</defaultValue>
+        </requiredProperty>
+    </requiredProperties>
+
+    <fileSets>
+        <!-- Main source files -->
+        <fileSet filtered="true" packaged="true">
+            <directory>src/main/java</directory>
+            <includes>
+                <include>**/**/*.java</include>
+            </includes>
+        </fileSet>
+
+        <!-- Test files -->
+        <fileSet filtered="true" packaged="true">
+            <directory>src/test/java</directory>
+            <includes>
+                <include>**/**/*Test.java</include>
+                <include>**/**/*Utils.java</include>
+            </includes>
+        </fileSet>
+
+        <!-- Resources -->
+        <fileSet filtered="true">
+            <directory>src/main/resources</directory>
+            <includes>
+                <include>**/*.yml</include>
+                <include>**/*.xml</include>
+                <include>**/*.properties</include>
+            </includes>
+        </fileSet>
+
+        <!-- API Contracts -->
+        <fileSet filtered="true">
+            <directory>api-contract</directory>
+            <includes>
+                <include>*.yml</include>
+                <include>**/*.yml</include>
+                <include>*.yaml</include>
+                <include>**/*.yaml</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+
+</archetype-descriptor>

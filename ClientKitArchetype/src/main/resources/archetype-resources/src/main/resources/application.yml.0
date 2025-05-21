@@ -1,0 +1,28 @@
+# Client Kit Configuration
+client:
+  # Base API configuration
+  api:
+    baseUrl: https://api.example.com
+    connectTimeout: 30s
+    readTimeout: 30s
+    maxRetries: 3
+    apiKey: ${CLIENT_API_KEY:}
+
+  # JWT Authentication configuration
+  jwt:
+    secret: ${JWT_SECRET:}
+    issuer: ${JWT_ISSUER:client-kit}
+    validitySeconds: 3600
+
+  # Resilience configuration
+  resilience:
+    circuitBreaker:
+      failureRateThreshold: 50
+      waitDurationInOpenState: 30s
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 5
+    retry:
+      maxAttempts: 3
+      initialInterval: 500ms
+      multiplier: 2.0
+      maxInterval: 5s
